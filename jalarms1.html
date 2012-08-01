@@ -41,13 +41,13 @@
         <section id="main-content">
           <h3>Introducci&oacute;n.</h3>
 
-<p>Como bien dice el sitio de <a href="http://jalarms.sourceforge.net" target="_blank">jAlarms</a>, en una aplicaci&oacute;n de un tamano considerable, tal vez necesitemos que se generen alarmas seg&uacute;n el modulo que genere dicha alarma, con destinos especificos por modulo e incluso, textos de alarmas distintos. Para este fin, jalarms cuenta con un mecanismo que permite el env&iacute;o de alarmas con estas caracteristicas.</p>
+<p>Como bien dice el sitio de <a href="http://jalarms.sourceforge.net" target="_blank">jAlarms</a>, en una aplicaci&oacute;n de un tamano considerable, tal vez necesitemos que se generen alarmas de cierta forma seg&uacute;n el m&oacute;dulo que lance dicha alarma, con destinos espec&iacute;ficos por m&oacute;dulo e incluso, textos de alarmas distintos. Para este f&iacute;n, jalarms cuenta con un mecanismo que permite el env&iacute;o de alarmas con estas caracter&iacute;sticas.</p>
 
-<p>En este post explicar&eacute; como configurar jalarms para que se envien correos electr&oacute;nicos segun el origen de la alarma.</p>
+<p>En este post explicar&eacute; como configurar jalarms para que se env&iacute;en correos electr&oacute;nicos seg&uacute;n el or&iacute;gen de la alarma.</p>
 
 <h3>Instalaci&oacute;n</h3>
 
-<p>Para este ejemplo usare Gradle como sistema de construcci&oacute;n y Groovy. Si usas java y alg&uacute;n sistema de construccion basado en Maven, estos paso no te ser&aacute;n agenos. </p>
+<p>Para este ejemplo usar&eacute; Gradle como sistema de construcci&oacute;n y Groovy. Si usas java y alg&uacute;n sistema de construcci&oacute;n basado en Maven, estos paso no te ser&aacute;n ajenos. </p>
 
 <strong>build.gradle
 
@@ -69,14 +69,14 @@ dependencies {
 }
 </code></pre>
 
-<p>Necesitaremos <i>jalarms-groovy</i>, que a su vez descargara por nosotros jalarms-core y algunas otras dependencias necesarias para jalarms. Es importante que agregemos dos repositorios maven adicionales para poder descargar groovy 2.0.0 (http://snapshots.repository.codehaus.org) y jml (http://java-jml.sourceforge.net/maven - necesaria para el canal MSN de jalarms-); de otra forma, no podr&aacute; resolver todas las dependencias.</p>
+<p>Necesitaremos <i>jalarms-groovy</i>, que a su vez descargara por nosotros jalarms-core y algunas otras dependencias necesarias para jalarms. Es importante que agreguemos dos repositorios maven adicionales para poder descargar groovy 2.0.0 (http://snapshots.repository.codehaus.org) y jml (http://java-jml.sourceforge.net/maven - necesaria para el canal MSN de jalarms-channel); de otra forma, no podr&aacute; resolver todas las dependencias.</p>
 
 <p>Una vez creado el archivo de build para gradle, basta con correr gradle de la siguiente forma :</p>
 
 <pre><code>$ gradle	
 </code></pre>
 
-<p>Esto descargara pos nosotros todo lo necesario para poder ejecutar el ejemplo.</p>
+<p>Esto descargara por nosotros todo lo necesario para poder ejecutar el ejemplo.</p>
 
 <h3>Configuraci&oacute;n de spring</h3>
 
@@ -89,7 +89,7 @@ dependencies {
 
 - Configurar canal de correo
 
-<p>Para este primer ejemplo, configuraremos el canal de correo electr&oacute;nico, indicandole los diferentes origenes (modulos de nuestra aplicaci&oacute;n) asi como sus destinos y plantillas</p>
+<p>Para este primer ejemplo, configuraremos el canal de correo electr&oacute;nico, indic&aacute;ndole los diferentes or&iacute;genes (m&oacute;dulos de nuestra aplicaci&oacute;n) as&iacute; como sus destinos y plantillas</p>
 
 applicationContext.xml
 <pre><code>
@@ -99,10 +99,10 @@ applicationContext.xml
         &lt;map&gt;
             &lt;entry key="ventas"&gt;
                 &lt;bean class="org.springframework.mail.SimpleMailMessage"&gt;
-                    &lt;property name="subject" value="Error en el modulo de ventas" /&gt;
+                    &lt;property name="subject" value="Error en el m&oacute;dulo de ventas" /&gt;
                     &lt;property name="from" value="soporte.ventas@empresa.com" /&gt;
                     &lt;property name="text"&gt;&lt;value&gt;
-			El modulo de ventas genero un error grave : ${msg}
+			El m&oacute;dulo de ventas genero un error grave : ${msg}
                     &lt;/value&gt;&lt;/property&gt;
                     &lt;property name="to" value="soporte.ventas@empresa.com" /&gt;
                 &lt;/bean&gt;
@@ -110,10 +110,10 @@ applicationContext.xml
 
             &lt;entry key="compars"&gt;
                 &lt;bean class="org.springframework.mail.SimpleMailMessage"&gt;
-                    &lt;property name="subject" value="Error en el modulo de compras" /&gt;
+                    &lt;property name="subject" value="Error en el m&oacute;dulo de compras" /&gt;
                     &lt;property name="from" value="soporte.compras@empresa.com" /&gt;
                     &lt;property name="text"&gt;&lt;value&gt;
-			El modulo de compras genero un error grave : ${msg}
+			El m&oacute;dulo de compras genero un error grave : ${msg}
                     &lt;/value&gt;&lt;/property&gt;
                     &lt;property name="to" value="soporte.compras@empresa.com" /&gt;
                 &lt;/bean&gt;
@@ -146,10 +146,10 @@ applicationContext.xml
 &lt;/bean&gt;
 </code></pre>
 
-<p>En esta configuraci&oacute;n definimos el canal de correo, asignando a la propiedad templatesBySource nuestro mapa de plantillas, donde la llave de este mapa es el nombre del template, y el valos es el mensaje con las propiedades necesarias como subject, from, text, etc. Despues de definir todos los canales debemos configurar el remitene de alarmas, el cual decidira como y cuando enviar la alarma usando nuestros canales registrados. Finalmente definimos la configuraci&oacute;n de nuestro servidor de correo saliente; en este caso esta es la configuraci&oacute;n para gmail.</p>
+<p>En esta configuraci&oacute;n definimos el canal de correo, as&iacute;gnando a la propiedad templatesBySource nuestro mapa de plantillas, donde la llave de este mapa es el nombre del template, y el valor es el mensaje con las propiedades necesarias como subject, from, text, etc. Despues de definir todos los canales debemos configurar el remitente de alarmas, el cual decidir&aacute; como y cuando enviar la alarma usando nuestros canales registrados. Finalmente definimos la configuraci&oacute;n de nuestro servidor de correo saliente; en este caso esta es la configuraci&oacute;n para gmail.</p>
 
 - Codigo Groovy
-<p>Finalmente, en nuestro codigo Groovy debemos cargar nuestro applicationContext.xml para que spring cree las instancias de nuestros beans y podamos usarlo</p>
+<p>Finalmente, en nuestro c&oacute;digo Groovy debemos cargar nuestro applicationContext.xml para que spring cree las instancias de nuestros beans y podamos usarlo</p>
 
 <pre><code>
 import org.springframework.context.support.ClassPathXmlApplicationContext
@@ -171,10 +171,10 @@ class Main {
 
 }	
 </code></pre>
-<p>En nuestro c&oacute;digo groovy, instanciamos el application context indicandole cual es el archivo donde estan registrados nuestros beans, y ya estamos listos para obtener el remitente de alarmas, listo para enviar alarmas; en este caso, enviamos una alarma con el texto 'El modulo de ventas genero un error grave : Error registrando venta' usando el template llamado 'ventas'; de la misma forma con el template 'compras'; jalarms nos permite definir un template general o default para todas las demas alarmas (para saber mas detalles sobre como configurar alarmas con templates 'default' visita <a href="http://jalarms.sourceforge.net/es/guide.html" targe="_blank">la gu&iacute;a de inicio</a>)</p>
+<p>En nuestro c&oacute;digo groovy, instanciamos el application context indicandole cual es el archivo donde est&aacute;n registrados nuestros beans, y ya estamos listos para obtener el remitente de alarmas, listo para enviar alarmas; en este caso, enviamos una alarma con el texto 'El m&oacute;dulo de ventas genero un error grave : Error registrando venta' usando el template llamado 'ventas'; de la misma forma con el template 'compras'; jalarms nos permite definir un template general o default para todas las dem&aacute;s alarmas (para saber mas detalles sobre como configurar alarmas con templates 'default' visita <a href="http://jalarms.sourceforge.net/es/guide.html" targe="_blank">la gu&iacute;a de inicio</a>)</p>
         </section>
 
-        <aside id="sidebar">
+        <as&iacute;de id="sidebar">
           
           <p class="repo-owner"><a href="https://github.com/maleficarum/blog"></a> mantenido por <a href="https://github.com/maleficarum">maleficarum</a>.</p>
 
@@ -185,7 +185,7 @@ class Main {
 
           	</ul>
           </p>
-        </aside>
+        </as&iacute;de>
       </div>
     </div>
 
