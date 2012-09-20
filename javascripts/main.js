@@ -3,7 +3,8 @@ var MALEFICARUM = {
 		loadPages: function(element) {
 
 			var pages = {
-				"jAlarms [ Multiples origenes ]": "jalarms1.html"
+				"jAlarms [ Multiples origenes ]": "jalarms1.html",
+				"Weblogic Nodemanager":"weblogic_nodemanater.html"
 			};
 
 			var menu = "";

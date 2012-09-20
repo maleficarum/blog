@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="javascripts/main.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Blog by maleficarum</title>
+
+	<script>
+		$(document).ready(function() {
+			var M = MALEFICARUM;
+			M.Utils.loadPages($('#menu'));
+		});
+	</script>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Blog</h1>
+        <h2>Solo un recuento de algunas cosas t&eacute;cnicas</h2>
+        <a href="https://github.com/maleficarum" class="button"><small>Ver perfil en</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>Introducci&oacute;n.</h3>
+
+<p>Despues de hacer la instalacion de Weblogic en ambas maquinas, deberemos cargar el <i>template</i> del dominio a incluir en el cluster.</p>
+
+<p>En el ManagedServer2, crearemos el dominio en base al template mencionado de la siguiente forma</p>
+
+<pre><code> $ ./Oracle/Middleware/wlserver_10.3/common/bin/unpack.sh -template=maleficarum.jar -domain=./Oracle/Middleware/user_projects/domains/maleficarum</code></pre>
+
+<p>Iniciaremos, despues de esto, weblogic para validar la creacion del dominio. Si el dominio inicio sin problemas, deberemos ahora registrar este nodo administrado (ManagedServer2) en el AdminServer que esta instalado en la Maquina1</p>
+
+<pre><code>$ cd ~/Oracle/Middleware/wlserver_10.3/common/bin
+$ ./wlst.sh
+Initializing WebLogic Scripting Tool (WLST) ...
+
+wls:/offline> connect('weblogic','weblogic','t3://adminserver:7001')
+
+wls:/maleficarum/serverConfig> nmEnroll('/home/usuario/Oracle/Middleware/user_projects/domains/maleficarum','/home/usuario/Oracle/Middleware/wlserver_10.3/common/nodemanager')
+
+Enrolling this machine with the domain directory at /home/usuario/Oracle/Middleware/user_projects/domains/maleficarum ...
+Successfully enrolled this machine with the domain directory at /home/usuario/Oracle/Middleware/user_projects/domains/maleficarum.
+
+exit()
+</code></pre>
+
+<p>Esto registrara el nodemanager en el cluster, creando los archivos necesarios para poder conectarse, autenticarse y permitir la administracion. Como primer parametro le enviamos la raiz del dominio en el ManagedServer2, y a continuacion le indicamos la ubicacion del nodemanager en el ManagedServer2.</p>
+
+          <h3>Inicio de NodeManagers</h3>
+		  
+<p>Es necesario iniciar en ambos equipos el NodeManager</p>
+
+<pre><code>$ cd ~/Oracle/Middleware/wlserver_10.3/common/nodemanager
+	$ ./startNodeManager.sh
+</code></pre>
+
+<p>Desde la consola de administracion en http://adminserver:7001/console/ iniciamos ambos ManagedServers (dominio > entorno > servidores > ManagedServer1 > control)</p>
+
+        </section>
+
+        <as&iacute;de id="sidebar">
+          
+          <p class="repo-owner"><a href="https://github.com/maleficarum/blog"></a> mantenido por <a href="https://github.com/maleficarum">maleficarum</a>.</p>
+
+          <p>
+			<h3>Contenido</h3>
+			<hr />
+          	<ul id="menu">
+
+          	</ul>
+          </p>
+        </as&iacute;de>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
