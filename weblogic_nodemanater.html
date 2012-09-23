@@ -73,6 +73,16 @@ exit()
 	$ ./startNodeManager.sh
 </code></pre>
 
+<p>Seguramente tendras un problema al cargar librerias nativas necesarias por node manager:</p>
+
+<pre><code>weblogic.nodemanager.common.ConfigException: Native version is enabled but nodemanager native library could not be loaded</code></pre>
+
+<p>Si tuvieras este problema, tendrias que editar nodemanager.properties de la siguiente forma :</p>
+
+<pre><code>$ cd Oracle/Middleware/wlserver_12.1/common/nodemanager/
+$ cat > nodemanager.properties
+$ NativeVersionEnabled=false</code></pre>
+
 <p>Desde la consola de administracion en http://adminserver:7001/console/ iniciamos ambos ManagedServers (dominio > entorno > servidores > ManagedServer1 > control)</p>
 
         </section>
