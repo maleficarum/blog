@@ -41,7 +41,9 @@
         <section id="main-content">
           <h3>Introducci&oacute;n.</h3>
 
-<p>Despues de hacer la instalacion de Weblogic en ambas maquinas, deberemos cargar el <i>template</i> del dominio a incluir en el cluster.</p>
+<p>Despues de hacer la instalacion de Weblogic en ambas maquinas, deberemos cargar el <i>template</i> del dominio a incluir en el cluster; este template podra ser generado de la siguiente forma:</p>
+
+<pre><code>$ ~/Oracle/Middleware/wlserver_10.3/common/bin/pack.sh -managed=false -domain=../maleficarum/ -template=maleficarum.jar -template_name="maleficarum"</code></pre>
 
 <p>En el ManagedServer2, crearemos el dominio en base al template mencionado de la siguiente forma</p>
 
