@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="javascripts/main.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Blog by maleficarum</title>
+
+	<script>
+		$(document).ready(function() {
+			var M = MALEFICARUM;
+			M.Utils.loadPages($('#menu'));
+		});
+	</script>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Blog</h1>
+        <h2>Solo un recuento de algunas cosas t&eacute;cnicas</h2>
+        <a href="https://github.com/maleficarum" class="button"><small>Ver perfil en</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+            <h3>Introducci&oacute;n.</h3>
+
+  <p>Despues de instalar Oracle 11g R2, con el asistente de instalacion, se creara la BD para SOA suite.</p>
+
+  <pre><code>$ dbca</code></pre>
+
+  Se debe de haber agregado previamente a .bash_profile
+
+  <pre><code>ORACLE_BASE="/home/angellore/Oracle/angellore/"
+  ORACLE_HOME="/home/angellore/Oracle/angellore/product/11.2.0/dbhome_1/"
+  ORACLE_SID="soa"
+  ORACLE_HOME_LISTNER=LISTENER</code></pre>
+
+  <p>La creacion de la BD se crea con todos los valores por default, y solo cambiando el dominio y SID por soa.</p>
+
+  <h3>Configuracion del listener</h3>
+
+  <p>El listener default al instalar oracle 11g tiene el nombre 'LISTENER', el cual aprovecharemos para servir las peticiones a la nueva BD soa. Esto se hace desde 'Oracle Net Manager':</p>
+
+  <pre><code>$ netmgr</code></pre>
+
+  <p>Debemos modificar para que los valores queden de la siguiente forma</p>
+
+  <p><img src="images/netmgr.png" /></p>
+
+  <p>Finalmente, tenemos que iniciar (o reiniciar) el listener para que tome efecto el cambio y probamos la conexion a la BD.</p>
+
+  <pre><code>$ lsnrctl start
+  $ sqlplus sys@soa AS SYSDBA</code></pre>
+
+  <h3>Inicio automatico de BD</h3>
+
+  <p>Primero debemos crear el script de inicio para el nivel de ejecucion 5 (o 3 segun sea el caso)</p>
+
+  <pre><code>#!/bin/sh
+  #
+  # /etc/rc.d/init.d/oracle
+  # Description: Starts and stops the Oracle database, listeners and Enterprise Manager
+  # See how we were called.
+  case "$1" in
+  	start)
+  		echo "Starting Oracle"
+  		echo -n "Starting Oracle Databases: "
+  		su angellore -c dbstart >> /tmp/oracle.log
+  		echo "Done."
+		
+  		echo -n "Starting Oracle Listeners: "
+  		su angellore -c "lsnrctl start" >> /tmp/oracle.log
+  		echo "Done."
+		
+  		echo -n "Starting Oracle Enterprise Manager: "
+  		su angellore -c "emctl start dbconsole" >> /tmp/oracle.log
+  		echo "Done."
+  		touch /var/lock/subsys/oracle
+  	;;
+  	stop)
+  		echo "Shutting Down Oracle"
+  		echo -n "Shutting Down Oracle Enterprise Manager: "
+  		su angellore -c "emctl stop dbconsole" >> /tmp/oracle.log
+  		echo "Done."
+		
+  		echo -n "Shutting Down Oracle Listeners: "
+  		su angellore -c "lsnrctl stop" >> /tmp/oracle.log
+  		echo "Done."
+		
+  		rm -f /var/lock/subsys/oracle
+  		echo -n "Shutting Down Oracle Databases: "
+  		su angellore -c dbshut >> /tmp/oracle.log
+  		echo "Done."
+  	;;
+  	*)
+  		echo "Usage: oracle {start|stop|restart}"
+  esac</code></pre>
+
+
+
+  <p>Despues indicamos en /etc/oratab que instancias deben iniciarse automaticamente :</p>
+
+  <pre><code># This file is used by ORACLE utilities.  It is created by root.sh
+  # and updated by the Database Configuration Assistant when creating
+  # a database.
+
+  # A colon, ':', is used as the field terminator.  A new line terminates
+  # the entry.  Lines beginning with a pound sign, '#', are comments.
+  #
+  # Entries are of the form:
+  #   $ORACLE_SID:$ORACLE_HOME:<N|Y>:
+  #
+  # The first and second fields are the system identifier and home
+  # directory of the database respectively.  The third filed indicates
+  # to the dbstart utility that the database should , "Y", or should not,
+  # "N", be brought up at system boot time.
+  #
+  # Multiple entries with the same $ORACLE_SID are not allowed.
+  #
+  #
+  oracle:/home/angellore/Oracle/angellore/product/11.2.0/dbhome_1:Y
+  soa:/home/angellore/Oracle/angellore/product/11.2.0/dbhome_1:Y</code></pre>
+  
+  <pre><code>$ mount -t tmpfs shmfs -o size=4g /dev/shm && echo "shmfs /dev/shm tmpfs size=4g 0" >> /etc/fstab</code></pre>
+
+        </section>
+
+        <as&iacute;de id="sidebar">
+          
+          <p class="repo-owner"><a href="https://github.com/maleficarum/blog"></a> mantenido por <a href="https://github.com/maleficarum">maleficarum</a>.</p>
+
+          <p>
+			<h3>Contenido</h3>
+			<hr />
+          	<ul id="menu">
+
+          	</ul>
+          </p>
+        </as&iacute;de>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

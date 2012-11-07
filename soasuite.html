@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="javascripts/main.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Blog by maleficarum</title>
+
+	<script>
+		$(document).ready(function() {
+			var M = MALEFICARUM;
+			M.Utils.loadPages($('#menu'));
+		});
+	</script>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Blog</h1>
+        <h2>Solo un recuento de algunas cosas t&eacute;cnicas</h2>
+        <a href="https://github.com/maleficarum" class="button"><small>Ver perfil en</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>Introducci&oacute;n.</h3>
+
+<p>Despues de instalar Oracle 11g R2, con el asistente de instalacion, y creada la BD para SOA <a href='orastart.html'>suite</a>.</p>
+
+          <h3>Instalaci&oacute;n de schema para SOA.</h3>
+
+		  <p>Se debe descargar SOA WebLogic, SOA Suite y RCU para SAO (e instalar en este orden). Una vez instalado en este orden, se creara el esquema para SOA en Oracle 11g :</p>
+
+		  <pre><code>$HOME/rcuHome/bin/rcu</code></pre>
+		  
+		  <p>Se proporcionan los datos de conexion y se usa el usuario SYS con rol SYSDBA. Una vez validada la conexion, se debera seleccionar SOA AND BPM infraestructure. Se proporciona un password para todos los esquemas.</p>
+		  
+          <h3>Creacion de dominio SOA en weblogic.</h3>		  
+		  
+		  <p>Para crear el dominio SOA en weblogic (se debe previamente haber instalado SOA suite) se debe ejecutar :</p>
+		  <pre><code>$HOME/Oracle/Middleware/wlserver_10.3/common/bin/config.sh</code></pre>
+        </section>
+
+        <as&iacute;de id="sidebar">
+          
+          <p class="repo-owner"><a href="https://github.com/maleficarum/blog"></a> mantenido por <a href="https://github.com/maleficarum">maleficarum</a>.</p>
+
+          <p>
+			<h3>Contenido</h3>
+			<hr />
+          	<ul id="menu">
+
+          	</ul>
+          </p>
+        </as&iacute;de>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

@@ -4,7 +4,9 @@ var MALEFICARUM = {
 
 			var pages = {
 				"jAlarms [ Multiples origenes ]": "jalarms1.html",
-				"Weblogic Nodemanager":"weblogic_nodemanater.html"
+				"Weblogic Nodemanager":"weblogic_nodemanater.html",
+				"SOA Suite":"soasuite.html",
+				"Oracle DB start":"orastart.html"
 			};
 
 			var menu = "";
